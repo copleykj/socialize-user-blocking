@@ -1,7 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { User } from 'meteor/socialize:user-model';
 import { Meteor } from 'meteor/meteor';
-import { _ } from 'meteor/underscore';
 /* eslint-enabled import/no-unresolved */
 
 import { BlocksCollection } from '../common/block-model';
@@ -14,7 +13,7 @@ const onHooks = [];
  * @param {Function} onHook A function which runs after a user has been blocked
  */
 User.onBlocked = function onBlocked(onHook) {
-    if (_.isFunction(onHook)) {
+    if (typeof onHook == 'function') {
         // add the hook to the onHooks array
         onHooks.push(onHook);
     }
@@ -36,7 +35,7 @@ BlocksCollection.allow({
 });
 
 BlocksCollection.after.insert(function afterInsert(userId, document) {
-    _.all(onHooks, function allHooks(hook) {
+    onHooks.every(hook => {
         hook(userId, document.blockedUserId);
     });
 });
