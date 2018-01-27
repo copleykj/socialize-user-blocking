@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
 import { Meteor } from 'meteor/meteor';
-import { _ } from 'meteor/underscore';
 import { User } from 'meteor/socialize:user-model';
 /* eslint-enable import/no-unresolved */
 
@@ -14,7 +13,7 @@ const blockHooks = [];
  * @param {Function} hook A function which returns true if the user should be considered blocked
  */
 User.registerBlockingHook = function registerBlockingHook(hook) {
-    if (_.isFunction(hook)) {
+    if (typeof hook == 'function') {
         // add the hook to the blockHooks array
         blockHooks.push(hook);
     }
@@ -32,7 +31,7 @@ User.methods({
         let blocked = false;
 
         if (!this.isSelf(user) && !this.isFriendsWith(user._id)) {
-            _.all(blockHooks, function allHooks(hook) {
+            blockHooks.every(hook => {
                 if (hook.call(self, user)) {
                     blocked = true;
                 }
