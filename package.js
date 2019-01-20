@@ -1,7 +1,7 @@
 /* global Package*/
 Package.describe({
     name: 'socialize:user-blocking',
-    version: '1.0.2',
+    version: '1.0.3',
     summary: 'Allow users to block each other',
     git: 'https://github.com/copleykj/socialize-user-blocking.git',
 });
